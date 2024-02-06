@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import os
 
 # Initialize Pygame
 pygame.init()
@@ -14,30 +15,29 @@ FONT_SIZE = 36
 # Game variables
 curd_count = 0
 curd_per_click = 1
-curd_per_second = 0
+curd_per_second = 1
+
+# Check if SaveData.txt exists
+if os.path.exists("SaveData.txt"):
+    with open("SaveData.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            if "Curd Count" in line:
+                curd_count = int(line.split(":")[1])
+            elif "Curd per Click" in line:
+                curd_per_click = int(line.split(":")[1])
+            elif "Curd per Second" in line:
+                curd_per_second = int(line.split(":")[1])
 
 # Pygame setup
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Cheese Curd Clicker")
+pygame_icon = pygame.image.load('assets/CurdClickerIcon.png')
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, FONT_SIZE)
 
 # Load cheese curd image
-cheese_curd_image = pygame.image.load("CheddarCurd.png")
-cheese_curd_image = pygame.transform.scale(cheese_curd_image, (50, 50))
-
-# Upgrade class
-class Upgrade:
-    def __init__(self, name, cost, curds_per_second):
-        self.name = name
-        self.cost = cost
-        self.curds_per_second = curds_per_second
-
-# Upgrades
-upgrade1 = Upgrade("Upgrade 1", 10, 1)
-upgrade2 = Upgrade("Upgrade 2", 50, 5)
-
-upgrades = [upgrade1, upgrade2]
+cheese_curd_image = pygame.image.load('assets/CheddarCurd.png')
 
 # Functions
 def draw_text(text, x, y, color=WHITE):
@@ -51,11 +51,19 @@ def generate_curd():
 # Main game loop
 running = True
 while running:
+    
+    clock.tick(FPS)
     screen.fill((0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            with open("SaveData.txt", "w") as file:
+                file.write(f"Curd Count: {int(curd_count)}\n")
+                file.write(f"Curd per Click: {curd_per_click}\n")
+                file.write(f"Curd per Second: {curd_per_second}\n")
             running = False
+            pygame.quit()
+            exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             curd_count += curd_per_click
 
@@ -67,12 +75,6 @@ while running:
     draw_text(f"Curd Count: {int(curd_count)}", 20, 20)
     draw_text(f"Curd per Click: {curd_per_click}", 20, 60)
     draw_text(f"Curd per Second: {curd_per_second}", 20, 100)
-
-    draw_text("Upgrades:", 20, 150)
-    y_offset = 180
-    for upgrade in upgrades:
-        draw_text(f"{upgrade.name}: Cost - {upgrade.cost}, +{upgrade.curds_per_second} per second", 20, y_offset)
-        y_offset += 40
 
     pygame.display.flip()
 
