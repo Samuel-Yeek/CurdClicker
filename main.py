@@ -48,6 +48,15 @@ def generate_curd():
     global curd_count
     curd_count += curd_per_second / FPS
 
+
+class Upgrade:
+    def __init__(self, id, name, cost, amount_owned, additional_curds_per_second):
+        self.id = id
+        self.name = name
+        self.cost = cost
+        self.amount_owned = amount_owned
+        self.additional_curds_per_second = additional_curds_per_second
+
 # Main game loop
 running = True
 while running:
