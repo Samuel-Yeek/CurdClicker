@@ -31,13 +31,13 @@ font = pygame.font.SysFont(None, 40)
 curds = 0
 curds_per_click = 1
 curds_per_second = 0
-upgrade_cost = 100
-upgrade_multiplier = 5
-upgrade_purchased = False
+cow_count = 0
+cow_cost = 100
+cow_production = 5
 
 # Buttons
 click_button = pygame.Rect(WIDTH//2 - 50, HEIGHT//2 - 50, 100, 100)
-cow_button = pygame.Rect(WIDTH - 150, 50, 100, 50)
+buy_cow_button = pygame.Rect(WIDTH - 150, 50, 100, 50)
 
 # Main game loop
 running = True
@@ -52,12 +52,13 @@ while running:
                 # Check if click is on the click button
                 if click_button.collidepoint(event.pos):
                     curds += curds_per_click
-                # Check if click is on the upgrade button
-                elif cow_button.collidepoint(event.pos):
-                    if curds >= upgrade_cost and not upgrade_purchased:
-                        curds_per_second += upgrade_multiplier
-                        curds -= upgrade_cost
-                        upgrade_purchased = True
+                # Check if click is on the buy cow button
+                elif buy_cow_button.collidepoint(event.pos):
+                    if curds >= cow_cost:
+                        curds -= cow_cost
+                        cow_count += 1
+                        cow_cost += cow_cost*0.1
+                        curds_per_second += cow_production
 
     # Update game logic
     current_time = time.time()
@@ -68,17 +69,20 @@ while running:
     # Draw everything
     screen.fill(WHITE)
     pygame.draw.rect(screen, GRAY, click_button)
-    pygame.draw.rect(screen, GRAY, cow_button)
+    pygame.draw.rect(screen, GRAY, buy_cow_button)
 
     # Render text and images
-    click_text = font.render("Click", True, BLACK)
-    upgrade_text = font.render("Cow", True, BLACK)
+    click_text = font.render("Create Curd", True, BLACK)
+    buy_cow_text = font.render("Buy Cow", True, BLACK)
     curds_text = font.render(f"Cheese Curds: {curds}", True, BLACK)
+    cow_count_text = font.render(f"Cow Count: {cow_count}", True, BLACK)
     screen.blit(click_text, (click_button.centerx - click_text.get_width() // 2, click_button.centery - click_text.get_height() // 2))
-    screen.blit(upgrade_text, (cow_button.centerx - upgrade_text.get_width() // 2, cow_button.centery - upgrade_text.get_height() // 2))
+    screen.blit(buy_cow_text, (buy_cow_button.centerx - buy_cow_text.get_width() // 2, buy_cow_button.centery - buy_cow_text.get_height() // 2))
     screen.blit(curds_text, (10, 10))
+    screen.blit(cow_count_text, (10, 50))
     screen.blit(cheese_curd_image, (click_button.centerx - cheese_curd_image.get_width() // 2, click_button.centery - cheese_curd_image.get_height() // 2))
-    screen.blit(cow_image, (cow_button.centerx - cow_image.get_width() // 2, cow_button.centery - cow_image.get_height() // 2))
+    for i in range(cow_count):
+        screen.blit(cow_image, (20 + i * (cow_image.get_width() + 5), 100))
 
     pygame.display.flip()
     pygame.time.Clock().tick(FPS)
