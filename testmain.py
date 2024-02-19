@@ -37,7 +37,6 @@ cow_cost = 100
 cow_production = 5
 curd_value = 5.99  # New variable for the value of a cheese curd
 
-
 # Buttons
 click_button = pygame.Rect(WIDTH//2 - 500, HEIGHT//2 - 200, 100, 100)
 buy_cow_button = pygame.Rect(WIDTH - 150, 50, 100, 50)
