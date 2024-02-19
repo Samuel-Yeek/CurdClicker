@@ -68,7 +68,7 @@ while running:
 
     # Draw everything
     screen.fill(WHITE)
-    pygame.draw.rect(screen, GRAY, click_button)
+    #pygame.draw.rect(screen, GRAY, click_button)
     pygame.draw.rect(screen, GRAY, buy_cow_button)
 
     # Render text and images
@@ -76,7 +76,7 @@ while running:
     buy_cow_text = font.render("Buy Cow", True, BLACK)
     curds_text = font.render(f"Cheese Curds: {curds}", True, BLACK)
     cow_count_text = font.render(f"Cow Count: {cow_count}", True, BLACK)
-    screen.blit(click_text, (click_button.centerx - click_text.get_width() // 2, click_button.centery - click_text.get_height() // 2))
+    screen.blit(click_text, (click_button.centerx - click_text.get_width() // 2, click_button.centery - click_text.get_height() - 20))
     screen.blit(buy_cow_text, (buy_cow_button.centerx - buy_cow_text.get_width() // 2, buy_cow_button.centery - buy_cow_text.get_height() // 2))
     screen.blit(curds_text, (10, 10))
     screen.blit(cow_count_text, (10, 50))
