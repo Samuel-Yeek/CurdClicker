@@ -16,7 +16,7 @@ GRAY = (200, 200, 200)
 
 # Load cheese images
 cheese_curd_image = pygame.image.load('assets/CheddarCurd.png')
-cheese_curd_image = pygame.transform.scale(cheese_curd_image, (cheese_curd_image.get_width() // 10, cheese_curd_image.get_height() // 10))
+cheese_curd_image = pygame.transform.scale(cheese_curd_image, (cheese_curd_image.get_width() // 5, cheese_curd_image.get_height() // 5))
 cow_image = pygame.image.load('assets/cow.png')
 cow_image = pygame.transform.scale(cow_image, (cow_image.get_width() // 15, cow_image.get_height() // 15))
 
