@@ -1,3 +1,0 @@
-Curd Count: 140
-Curd per Click: 1
-Curd per Second: 1
